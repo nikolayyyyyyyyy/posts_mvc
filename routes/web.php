@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -13,6 +15,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/posts-create', function() {
+    return Inertia::render('User/CreatePost');
+})->name('post-create');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <p>Hello to our app</p>
+    <p>Добре дошли в TopOffers България.</p>
     
     <div class="section__links">
         <Link href="/login">Login</Link>
@@ -12,10 +12,10 @@ import { Link } from '@inertiajs/vue3';
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .section__links{
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 10px;
 }
 </style>
