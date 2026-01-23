@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $timestaps = false;
+    public $timestaps = false;
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'slug'
     ];

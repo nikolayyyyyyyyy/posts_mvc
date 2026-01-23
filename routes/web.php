@@ -5,7 +5,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -16,9 +15,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/posts-create', function() {
-    return Inertia::render('User/CreatePost');
-})->name('post-create');
+Route::controller(PostController::class)->group(function () {
+    Route::get('/posts-create', function() {
+        return Inertia::render('User/CreatePost');
+    })->name('post-create');
+
+    Route::post('/posts', 'store');
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

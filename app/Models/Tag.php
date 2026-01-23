@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $timestamp = false;
+    public $timestamp = false;
 
-    public $fillable = [
+    protected $fillable = [
         'name',
         'slug'
     ];

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostCategory extends Model
 {
-    protected $timestaps = false;
+    public $timestaps = false;
 
-    public $fillable = [
+    protected $fillable = [
         'post_id',
         'category_id',
     ];

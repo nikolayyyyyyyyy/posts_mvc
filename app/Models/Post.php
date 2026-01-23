@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $timestaps = false;
+    public $timestamps = false;
 
-    public $fillable = [
+    protected $fillable = [
         'title',
         'slug',
         'content',
-        'author_user_id',
+        'user_author_id',
         'status'
     ];
 }

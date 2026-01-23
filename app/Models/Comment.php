@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    protected $timestamp = false;
+    public $timestamp = false;
 
-    public $fillable = [
+    protected $fillable = [
         'post_id',
         'author_user_id',
         'body',
