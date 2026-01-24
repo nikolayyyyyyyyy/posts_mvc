@@ -26,6 +26,8 @@ class PostService
             'status' => 'posted'
         ]);
         
+        $post->categories()->attach($request->array('categories'));
+
         if($path)
         {
             Media::create([

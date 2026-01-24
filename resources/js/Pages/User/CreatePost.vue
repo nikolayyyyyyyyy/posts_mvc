@@ -66,7 +66,7 @@ function handle_click(id) {
                             {{ category.name }}
                         </div>
                     </div>
-                    {{ post.categories }}
+                    
                     <PrimaryButton type="submit" class="add__btn">Добави</PrimaryButton> 
                 </form>
             </div>
