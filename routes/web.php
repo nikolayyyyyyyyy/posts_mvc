@@ -3,25 +3,12 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::get('/', function () {
-    if(Auth::check())
-    {
-        Route::inertia('/dashboard', 'Dashboard');
-    }
-
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts-create', function() {
@@ -42,8 +29,26 @@ Route::controller(CategoryController::class)->group(function () {
     Route::post('/categories', 'store');
 })->middleware('auth');
 
+
+Route::controller(TagController::class)->group(function () {
+    Route::get('/tag-create', function() {
+        return Inertia::render('User/CreateTag');
+    })->name('tag-create');
+});
+
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $posts = Post::orderBy('id', 'desc')->get();
+
+    return Inertia::render('Dashboard', ['posts' => $posts]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

@@ -16,7 +16,7 @@ const category = useForm({
     <AuthenticatedLayout>
         <section class="section-create-category">
             <div class="section__inner">
-                <h1 class="section__title">Създаване на нов пост</h1>
+                <h1 class="section__title">Създаване на нова категория</h1>
 
                 <Form @submit.prevent="category.post('/categories')" class="create-form">
                     <div class="form__input">

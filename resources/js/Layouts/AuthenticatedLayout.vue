@@ -53,6 +53,13 @@ const showingNavigationDropdown = ref(false);
                                     >
                                 Категория
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('tag-create')"
+                                    :active="route().current('tag-create')"
+                                    >
+                                Таг
+                                </NavLink>
                             </div>
                         </div>
 
