@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    public $timestaps = false;
+    public $timestamps = false;
 
     protected $fillable = [
         'name',
         'slug'
     ];
+
+    public function post()
+    {
+        $this->belongsToMany(Post::class);
+    }
 }

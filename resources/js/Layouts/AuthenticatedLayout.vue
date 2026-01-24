@@ -46,6 +46,13 @@ const showingNavigationDropdown = ref(false);
                                     >
                                 Пост
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('category-create')"
+                                    :active="route().current('category-create')"
+                                    >
+                                Категория
+                                </NavLink>
                             </div>
                         </div>
 

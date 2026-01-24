@@ -15,4 +15,9 @@ class Post extends Model
         'user_author_id',
         'status'
     ];
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }

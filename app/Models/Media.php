@@ -9,6 +9,8 @@ class Media extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        
+        'post_id',
+        'file_path',
+        'kind'
     ];
 }

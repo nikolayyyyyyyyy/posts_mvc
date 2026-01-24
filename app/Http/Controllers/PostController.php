@@ -2,34 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Http\Services\PostService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
+    private PostService $post_service;
+
+    public function __construct(PostService $post_service)
+    {
+        $this->post_service = $post_service;
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $request->validate([
             'title' => 'required',
-            'content' => 'required|max:500',
-            'slug' => 'required|unique:posts,slug'
+            'content' => 'nullable|max:500',
+            'slug' => 'required|unique:posts,slug',
+            'post_image' => 'nullable',
+            'categories' => 'required|array'
+        ],[
+            'title.required' => 'Полето е задължително.',
+            'slug.required' => 'Полето е задължително.',
+            'slug.unique' => 'Има запис с този слъг.',
+            'content.max' => 'Полето трябва да е до 500 символа.'
         ]);
 
-        if($validator->fails())
-        {
-            return redirect('/posts-create')->withErrors($validator->errors());
-        }
-
-        $post = Post::create([
-            'title' => $request->string('title'),
-            'content' => $request->string('content'),
-            'slug' => $request->string('slug'),
-            'user_author_id' => Auth::user()->id,
-            'status' => 'posted'
-        ]);
-
-        return redirect('/');
+        $this->post_service->createPost($request);
+        return redirect('/dashboard');
     }
 }
