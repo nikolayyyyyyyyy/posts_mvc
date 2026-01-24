@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Form, Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 const category = useForm({
     'name': '',
     'slug': ''
@@ -18,7 +18,7 @@ const category = useForm({
             <div class="section__inner">
                 <h1 class="section__title">Създаване на нова категория</h1>
 
-                <Form @submit.prevent="category.post('/categories')" class="create-form">
+                <form @submit.prevent="category.post('/categories')" class="create-form">
                     <div class="form__input">
                         <label for="title">Име</label>
                         <TextInput v-model="category.name"/>
@@ -32,7 +32,7 @@ const category = useForm({
                     </div>
 
                     <PrimaryButton type="submit" class="add__btn">Добави</PrimaryButton> 
-                </Form>
+                </form>
             </div>
         </section>
     </AuthenticatedLayout>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,8 +15,10 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts-create', function() {
         $categories = Category::orderBy('id')
             ->get();
+        $tags = Tag::orderBy('id')
+            ->get();
 
-        return Inertia::render('User/CreatePost', ['categories' => $categories]);
+        return Inertia::render('User/CreatePost', ['categories' => $categories, 'tags' => $tags]);
     })->name('post-create');
 
     Route::post('/posts', 'store');
@@ -34,6 +37,8 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tag-create', function() {
         return Inertia::render('User/CreateTag');
     })->name('tag-create');
+
+    Route::post('/tags', 'store');
 });
 
 Route::get('/', function () {
@@ -46,9 +51,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $posts = Post::orderBy('id', 'desc')->get();
-
-    return Inertia::render('Dashboard', ['posts' => $posts]);
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

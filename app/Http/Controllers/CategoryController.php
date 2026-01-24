@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Category\CategoryService;
+use App\Http\Services\CategoryService;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private CategoryService $category_service;
-
-    public function __construct(CategoryService $category_service)
-    {
-        $this->category_service = $category_service;
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -28,7 +22,11 @@ class CategoryController extends Controller
             'slug.max' => 'Записа не може да е повече от 15 символа.'
         ]);
 
-        $this->category_service->createCategory($request);
+        Category::create([
+            'name' => $request->string('name'),
+            'slug' => $request->string('slug')
+        ]);
+
         return redirect('/dashboard');
     }
 }

@@ -7,7 +7,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 const props = defineProps({
     categories:{
+        type: Array,
         required: true
+    },
+    tags:{
+        type: Array,
+        required:true
     }
 })
 const post = useForm({
@@ -15,14 +20,23 @@ const post = useForm({
     'slug': '',
     'content': '',
     'post_image': '',
-    'categories': []
+    'categories': [],
+    'tags': []
 });
 
-function handle_click(id) {
-    if(post.categories.find(i => i == id) != null){
-        post.categories = post.categories.filter(i => i != id);
+function handle_category(id) {
+    if(post.categories.find(c => c == id) != null){
+        post.categories = post.categories.filter(c => c != id);
     } else {
         post.categories.push(id);
+    }
+}
+
+function handle_tag(){
+    if(post.tags.find(t => t == id) != null){
+        post.tags = post.tags.filter(t => t != id);
+    } else {
+        post.tags.push(id);
     }
 }
 </script>
@@ -65,11 +79,22 @@ function handle_click(id) {
                     </div> 
 
                     <div class="section__categories">
-                            <div v-for="category in categories" class="section__category">
-                                <Checkbox :checked="false" @click="handle_click(category.id)" :value="category.id" />
-                                {{ category.name }}
-                            </div>
+                        <p>Категории</p>
+                        <div v-for="category in categories" class="section__category">
+                            <Checkbox :checked="false" @click="handle_category(category.id)" :value="category.id" />
+                            {{ category.name }}
                         </div>
+                        <InputError v-if="post.errors.categories" :message="post.errors.categories"/>
+                    </div>
+
+                    <div class="section__categories">
+                        <p>Тагове</p>
+                        <div v-for="tag in tags" class="section__category">
+                            <Checkbox :checked="false" @click="handle_tag(tag.id)" :value="tag.id" />
+                            {{ tag.name }}
+                        </div>
+                        <InputError v-if="post.errors.tags" :message="post.errors.tags"/>
+                    </div>
                 </form>
             </div>
         </section>
@@ -93,6 +118,7 @@ function handle_click(id) {
 
         .create-form{
             display: flex;
+            gap: 20px;
             justify-content: center;
             border: 1px solid rgb(205, 205, 205);
             border-radius: 10px;
