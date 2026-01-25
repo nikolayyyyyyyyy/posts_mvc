@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_post', function (Blueprint $table) {
-            $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
+        Schema::create('post_tag', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreignId('tag_id')->references('id')->on('tags')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_post');
+        Schema::dropIfExists('post_tag');
     }
 };

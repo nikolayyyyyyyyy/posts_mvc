@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->references('id')->on('posts');
-            $table->foreignId('author_user_id')->references('id')->on('users');
+            $table->foreignId('post_id')->references('id')->on('posts')->cascadeOnDelete();
+            $table->foreignId('author_user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->text('body')->nullable(true);
             $table->timestamp('created_at')->useCurrent();
             $table->enum('status', ['pending', 'posted', 'in_process']);

@@ -19,7 +19,7 @@ const tag = useForm({
             <div class="section__inner">
                 <h1>Създаване на таг</h1>
 
-                <form @submit.prevent="tag.post('/tags')" class="create-form">
+                <form @submit.prevent="tag.post('/tags')" class="create-form bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="title">Име</label>
                         <TextInput v-model="tag.name"/>
@@ -59,10 +59,6 @@ const tag = useForm({
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgb(205, 205, 205);
-            border-radius: 10px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-            padding: 12px;
             width: 350px;
 
             .form__input{

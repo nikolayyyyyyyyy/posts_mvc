@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,6 +42,20 @@ Route::controller(TagController::class)->group(function () {
 
     Route::post('/tags', 'store');
 });
+
+Route::controller(CommentController::class)->group(function () {
+    Route::get('/comment-create', function() {
+        $posts = Post::all()->select(['id','slug']);
+        $users = User::all()->select(['id', 'email']);
+
+        return Inertia::render('User/CreateComment',[
+            'posts' => $posts,
+            'users' => $users
+        ]);
+    })->name('comment-create');
+
+    Route::post('/comments', 'store');
+})->middleware('auth');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

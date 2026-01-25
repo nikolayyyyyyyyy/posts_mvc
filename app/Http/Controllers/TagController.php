@@ -11,7 +11,7 @@ class TagController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:tags,name|max:15',
-            'slug'=> 'required|unique:tags,name|max:15'
+            'slug'=> 'required|unique:tags,slug|max:15'
         ],[
             'name.required' => 'Полето е задължително.',
             'name.unique' => 'Има запис с това име.',

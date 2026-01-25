@@ -60,6 +60,13 @@ const showingNavigationDropdown = ref(false);
                                     >
                                 Таг
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('comment-create')"
+                                    :active="route().current('comment-create')"
+                                    >
+                                Коментар
+                                </NavLink>
                             </div>
                         </div>
 

@@ -7,7 +7,6 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -17,7 +16,7 @@ class PostController extends Controller
             'title' => 'required',
             'content' => 'nullable|max:500',
             'slug' => 'required|unique:posts,slug',
-            'post_image' => 'nullable',
+            'post_image' => 'nullable|image',
             'categories' => 'required|array',
             'tags' => 'required|array'
         ],[
@@ -43,7 +42,8 @@ class PostController extends Controller
         ]);
         
         $post->categories()->attach($request->array('categories'));
-
+        $post->tags()->attach($request->array('tags'));
+        
         if($path)
         {
             Media::create([

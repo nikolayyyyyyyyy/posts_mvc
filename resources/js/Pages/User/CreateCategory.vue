@@ -18,7 +18,7 @@ const category = useForm({
             <div class="section__inner">
                 <h1 class="section__title">Създаване на нова категория</h1>
 
-                <form @submit.prevent="category.post('/categories')" class="create-form">
+                <form @submit.prevent="category.post('/categories')" class="create-form bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="title">Име</label>
                         <TextInput v-model="category.name"/>
@@ -58,11 +58,7 @@ const category = useForm({
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgb(205, 205, 205);
-            border-radius: 10px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-            padding: 12px;
-            width: 350px;
+            width: 400px;
 
             .form__input{
                 display: flex;

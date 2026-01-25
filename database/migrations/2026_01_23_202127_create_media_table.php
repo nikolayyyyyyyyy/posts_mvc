@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->references('id')->on('posts');
+            $table->foreignId('post_id')->references('id')->on('posts')->cascadeOnDelete();
             $table->string('file_path')->nullable(false);
             $table->enum('kind', ['photo', 'video', 'pdf']);
             $table->timestamp('uploaded_at')->useCurrent();

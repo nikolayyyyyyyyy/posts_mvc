@@ -32,7 +32,7 @@ function handle_category(id) {
     }
 }
 
-function handle_tag(){
+function handle_tag(id){
     if(post.tags.find(t => t == id) != null){
         post.tags = post.tags.filter(t => t != id);
     } else {
@@ -49,37 +49,35 @@ function handle_tag(){
             <div class="section__inner shell">
                 <h1 class="section__title">Създаване на нов пост</h1>
 
-                <form @submit.prevent="post.post('/posts')" class="create-form">
-                    <div class="form__inner">
-                        <div class="form__input">
-                            <label for="title">Качи снимка</label>
-                            <input type="file" @input="post.post_image = $event.target.files[0]" name="title"/>
-                            <InputError v-if="post.errors.post_image" :message="post.errors.post_image"/>
-                        </div>
+                <form @submit.prevent="post.post('/posts')" class="create-form bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                    <div class="form__input">
+                        <label for="title">Качи снимка</label>
+                        <input type="file" @input="post.post_image = $event.target.files[0]" name="title"/>
+                        <InputError v-if="post.errors.post_image" :message="post.errors.post_image"/>
+                    </div>
 
-                        <div class="form__input">
-                            <label for="title">Заглавие</label>
-                            <TextInput v-model="post.title" id="title" name="title"/>
-                            <InputError v-if="post.errors.title" :message="post.errors.title"/>
-                        </div>
+                    <div class="form__input">
+                        <label for="title">Заглавие</label>
+                        <TextInput v-model="post.title" id="title" name="title"/>
+                        <InputError v-if="post.errors.title" :message="post.errors.title"/>
+                    </div>
 
-                        <div class="form__input">
-                            <label for="slug">Слъг</label>
-                            <TextInput id="slug" name="slug" v-model="post.slug"/>
-                            <InputError v-if="post.errors.slug" :message="post.errors.slug"/>
-                        </div>
+                    <div class="form__input">
+                        <label for="slug">Слъг</label>
+                        <TextInput id="slug" name="slug" v-model="post.slug"/>
+                        <InputError v-if="post.errors.slug" :message="post.errors.slug"/>
+                    </div>
 
-                        <div class="form__input">
-                            <label for="content">Съдържание</label>
-                            <TextInput id="content" name="content" v-model="post.content"/>
-                            <InputError v-if="post.errors.content" :message="post.errors.content"/>
-                        </div>
-                    
-                        <PrimaryButton type="submit" class="add__btn">Добави</PrimaryButton>
-                    </div> 
+                    <div class="form__input">
+                        <label for="content">Съдържание</label>
+                        <TextInput id="content" name="content" v-model="post.content"/>
+                        <InputError v-if="post.errors.content" :message="post.errors.content"/>
+                    </div>
+                
+                    <PrimaryButton type="submit" class="add__btn">Добави</PrimaryButton>
 
                     <div class="section__categories">
-                        <p>Категории</p>
+                        <p>Категории:</p>
                         <div v-for="category in categories" class="section__category">
                             <Checkbox :checked="false" @click="handle_category(category.id)" :value="category.id" />
                             {{ category.name }}
@@ -88,7 +86,7 @@ function handle_tag(){
                     </div>
 
                     <div class="section__categories">
-                        <p>Тагове</p>
+                        <p>Тагове:</p>
                         <div v-for="tag in tags" class="section__category">
                             <Checkbox :checked="false" @click="handle_tag(tag.id)" :value="tag.id" />
                             {{ tag.name }}
@@ -118,26 +116,16 @@ function handle_tag(){
 
         .create-form{
             display: flex;
+            flex-direction: column;
             gap: 20px;
             justify-content: center;
-            border: 1px solid rgb(205, 205, 205);
-            border-radius: 10px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-            padding: 20px;
-        }
+            width: 100%;
 
-        .form__inner{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 12px;
 
             .form__input{
                 display: flex;
                 flex-direction: column;
-                gap: 2px;
-                width: 100%;
+                width: 400px;
             }
 
             .add__btn{
@@ -150,9 +138,9 @@ function handle_tag(){
 
     .section__categories{
         display: flex;
-        flex-direction: column;
-        gap: 2px;
-        width: 100%;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
 
         .section__category{
             display: flex;
