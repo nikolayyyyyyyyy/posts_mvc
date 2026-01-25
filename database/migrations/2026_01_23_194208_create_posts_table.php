@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_author_id')->references('id')->on('users');
             $table->timestamp('published_at')->useCurrent();
             $table->enum('status', ['posted', 'in_progress', 'waiting']);
+            $table->integer('count_likes')->default(0);
         });
     }
 

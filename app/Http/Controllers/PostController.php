@@ -18,16 +18,19 @@ class PostController extends Controller
             'slug' => 'required|unique:posts,slug',
             'post_image' => 'nullable|image',
             'categories' => 'required|array',
-            'tags' => 'required|array'
+            'tags' => 'required|array',
+            'count' => 'nullable|numeric'
         ],[
             'title.required' => 'Полето е задължително.',
             'slug.required' => 'Полето е задължително.',
             'slug.unique' => 'Има запис с този слъг.',
             'content.max' => 'Полето трябва да е до 500 символа.',
             'categories.required' => 'Минимум 1.',
-            'tags.required' => 'Минимум 1.'
+            'tags.required' => 'Минимум 1.',
+            'count.numeric' => 'Полето трябва да е с числова стойност.'
         ]);
-
+        
+        $path = null;
         if($request->hasFile('post_image'))
         {
            $path = Storage::disk('public')->put('posts_photos', $request->post_image);
@@ -38,13 +41,14 @@ class PostController extends Controller
             'content' => $request->string('content'),
             'slug' => $request->string('slug'),
             'user_author_id' => Auth::user()->id,
-            'status' => 'posted'
+            'status' => 'posted',
+            'count_likes' => $request->integer('count') != null ? $request->integer('count') : 0
         ]);
         
         $post->categories()->attach($request->array('categories'));
         $post->tags()->attach($request->array('tags'));
         
-        if($path)
+        if($path != null)
         {
             Media::create([
                 'post_id' => $post->id,

@@ -21,7 +21,8 @@ const post = useForm({
     'content': '',
     'post_image': '',
     'categories': [],
-    'tags': []
+    'tags': [],
+    'count': ''
 });
 
 function handle_category(id) {
@@ -54,6 +55,12 @@ function handle_tag(id){
                         <label for="title">Качи снимка</label>
                         <input type="file" @input="post.post_image = $event.target.files[0]" name="title"/>
                         <InputError v-if="post.errors.post_image" :message="post.errors.post_image"/>
+                    </div>
+
+                    <div class="form__input">
+                        <label for="count">Посещения</label>
+                        <TextInput v-model="post.count" id="count" name="count"/>
+                        <InputError v-if="post.errors.count" :message="post.errors.count"/>
                     </div>
 
                     <div class="form__input">

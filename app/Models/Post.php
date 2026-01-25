@@ -13,7 +13,8 @@ class Post extends Model
         'slug',
         'content',
         'user_author_id',
-        'status'
+        'status',
+        'count_likes'
     ];
 
     public function categories()
