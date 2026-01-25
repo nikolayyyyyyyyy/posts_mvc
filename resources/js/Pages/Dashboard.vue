@@ -9,10 +9,8 @@ import { Head } from '@inertiajs/vue3';
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="section__user__actions">
-                <NavLink href="/posts-create">
-                    Създай нов пост
-                </NavLink>
+            <div class="section__admin__actions">
+                <NavLink href="/posts-category-list">Статии по слъг</NavLink>
             </div>
         </template>
     </AuthenticatedLayout>

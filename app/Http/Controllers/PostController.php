@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -58,5 +59,22 @@ class PostController extends Controller
         }
 
         return redirect('/dashboard');
+    }
+
+    public function getPostsByCategory(Request $request)
+    {   
+        $request->validate([
+            'slug' => 'required|exists:categories,slug|max:20'
+        ],[
+            'slug.required' => 'Полето е задължително.',
+            'slug.exists' => 'Няма запис с това име.',
+            'slug.max' => 'Полето не може да е над 20 символа.'
+        ]);
+
+        $slug = $request->string('slug');
+
+        return Inertia::render('User/Lists/PostByCategory', ['posts' => Post::whereHas('categories', function ($q) use ($slug) {
+            $q->where('name', $slug);
+        })->with('categories')->get()]);
     }
 }

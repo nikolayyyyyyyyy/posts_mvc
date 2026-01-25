@@ -24,6 +24,11 @@ Route::controller(PostController::class)->group(function () {
     })->name('post-create');
 
     Route::post('/posts', 'store');
+    Route::get('/posts-category-list', function() {
+        return Inertia::render('User/Lists/PostByCategory');
+    });
+
+    Route::post('/category/{name}/posts', 'getPostsByCategory');
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {
