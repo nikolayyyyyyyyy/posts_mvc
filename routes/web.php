@@ -22,13 +22,23 @@ Route::controller(PostController::class)->group(function () {
 
         return Inertia::render('User/CreatePost', ['categories' => $categories, 'tags' => $tags]);
     })->name('post-create');
-
     Route::post('/posts', 'store');
-    Route::get('/posts-category-list', function() {
-        return Inertia::render('User/Lists/PostByCategory');
-    });
+    Route::post('/category/{slug}/posts', 'getPostsByCategorySlug');
+    ROute::post('/tag/{slug}/posts', 'getPostsByTagSlug');
 
-    Route::post('/category/{name}/posts', 'getPostsByCategory');
+    Route::get('/posts-category', function() {
+        return Inertia::render('User/Lists/PostByCategory');
+    })->name('list.by.category.slug');
+
+    Route::get('/posts-tag', function() {
+        return Inertia::render('User/Lists/PostByTagSlug');
+    })->name('list.by.tag.slug');
+
+    Route::get('/posts-author', function() {
+        return Inertia::render('User/Lists/PostByAuthor',[
+            'users' => User::orderBy('id', 'desc')->get()
+        ]);
+    })->name('list.by.author');
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {

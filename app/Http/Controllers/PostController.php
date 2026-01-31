@@ -6,7 +6,9 @@ use App\Models\Media;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -61,20 +63,53 @@ class PostController extends Controller
         return redirect('/dashboard');
     }
 
-    public function getPostsByCategory(Request $request)
+    public function getPostsByCategorySlug(Request $request)
     {   
-        $request->validate([
-            'slug' => 'required|exists:categories,slug|max:20'
-        ],[
+        $validator = Validator::make($request->all(), [
+            'slug' => 'required|exists:categories,slug|max:20',
+        ], [
             'slug.required' => 'Полето е задължително.',
-            'slug.exists' => 'Няма запис с това име.',
-            'slug.max' => 'Полето не може да е над 20 символа.'
+            'slug.exists'   => 'Няма запис с това име.',
+            'slug.max'      => 'Полето не може да е над 20 символа.',
         ]);
+        
+        if ($validator->fails()) {
+            return redirect()
+                ->route('list.by.category.slug')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $slug = $request->string('slug');
 
-        return Inertia::render('User/Lists/PostByCategory', ['posts' => Post::whereHas('categories', function ($q) use ($slug) {
-            $q->where('name', $slug);
-        })->with('categories')->get()]);
+        return Inertia::render('User/Lists/PostByCategory',
+            ['posts' => Post::whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+        })->with(['categories','tags'])->get()]);
+    }
+
+    public function getPostsByTagSlug(Request $request)
+    {
+        $validate = Validator::make($request->all(),[
+            'slug' => 'required|exists:tags,slug|max:30'
+        ],[
+            'slug.required' => 'Полето е задължително',
+            'slug.exists' => 'Няма запис с това Id.',
+            'slug.max' => 'Полето трябва да е до 30 символа.'
+        ]);
+
+        if($validate->fails())
+        {
+            return redirect()
+                ->route('list.by.tag.slug')
+                ->withErrors($validate);
+        }
+
+        $slug = $request->string('slug');
+
+        return Inertia::render('User/Lists/PostByTagSlug',
+            ['posts' => Post::whereHas('tags', function($q) use ($slug) {
+                $q->where('slug', '=', $slug);
+            })->with('categories', 'tags')->get()]);
     }
 }
