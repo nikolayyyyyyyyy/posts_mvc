@@ -51,6 +51,16 @@ Route::controller(PostController::class)->group(function () {
         $posts = Post::all()->select(['id', 'title', 'slug']);
         return Inertia::render('LastCommentsForPage', ['posts' => $posts]); 
     });
+
+    Route::get('/count-posts-user', function () {
+        $users = User::with('posts')
+            ->get()
+            ->map(fn ($user) => [
+                'email' => $user->email,
+                'post_count' => $user->posts()->count()
+            ]);
+        return Inertia::render('CountPostOfUsers', [ 'users' => $users ]);
+    });
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {
