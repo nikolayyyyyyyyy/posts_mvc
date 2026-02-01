@@ -27,19 +27,19 @@ Route::controller(PostController::class)->group(function () {
     Route::post('/posts-category', 'getPostsByCategorySlug');
     Route::get('/posts-category', function() {
         return Inertia::render('User/Lists/PostByCategory');
-    })->name('list.by.category.slug');
+    });
 
     Route::post('/posts-tag', 'getPostsByTagSlug');
     Route::get('/posts-tag', function() {
         return Inertia::render('User/Lists/PostByTagSlug');
-    })->name('list.by.tag.slug');
+    });
 
     Route::post('/posts-author', 'getUserPosts');
     Route::get('/posts-author', function() {
         return Inertia::render('User/Lists/PostByAuthor',[
             'users' => User::orderBy('id', 'desc')->get()
         ]);
-    })->name('list.by.author');
+    });
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {

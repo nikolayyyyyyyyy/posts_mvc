@@ -108,12 +108,14 @@ class PostController extends Controller
             'id.exists' => 'Няма запис с това Id.'
         ]);
 
+        $users = User::orderBy('id', 'desc')->get();
         $user = User::find($request->integer('id'));
         $posts = Post::whereBelongsTo($user)->get();
 
         return Inertia::render('User/Lists/PostByAuthor',
         [
-            'posts' => $posts
+            'posts' => $posts,
+            'users' => $users
         ]);
     }
 }
