@@ -14,6 +14,7 @@ import { Head } from '@inertiajs/vue3';
                 <NavLink href="/posts-tag">Постове по слъг<br>- тагове -</NavLink>
                 <NavLink href="/posts-author">Постове по<br>- автор -</NavLink>
                 <NavLink href="/most-readed-post">Най-посещаван<br>- пост -</NavLink>
+                <NavLink href="/last-comments-for-page">Последни коментари<br>- за пост -</NavLink>
             </div>
         </template>
     </AuthenticatedLayout>

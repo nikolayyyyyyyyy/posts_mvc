@@ -45,6 +45,12 @@ Route::controller(PostController::class)->group(function () {
         $posts = Post::orderBy('count_likes', 'desc')->get();
         return Inertia::render('MostReadedPost', ['posts' => $posts]);
     });
+
+    Route::post('/last-comments-for-page', 'getLastestCommentsForPost');
+    Route::get('/last-comments-for-page', function() {
+        $posts = Post::all()->select(['id', 'title', 'slug']);
+        return Inertia::render('LastCommentsForPage', ['posts' => $posts]); 
+    });
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {

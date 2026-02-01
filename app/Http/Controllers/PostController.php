@@ -7,9 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -116,6 +114,33 @@ class PostController extends Controller
         [
             'posts' => $posts,
             'users' => $users
+        ]);
+    }
+
+    public function getLastestCommentsForPost(Request $request)
+    {
+        $request->validate([ 'id' => 'required|numeric|exists:posts,id' ],
+        [
+            'id.required' => 'Полето е задължително.',
+            'id.numeric' => 'Полето трябва да е с числова стойност.',
+            'id.exists' => 'Няма запис с това Id.'
+        ]);
+
+        $post = Post::find($request->integer('id'));
+        $comments = $post->comments()
+            ->with('user')
+            ->latest()
+            ->get()
+            ->map(fn ($comment) => [
+                'body' => $comment->body,
+                'user_email' => $comment->user->email,
+                'created_at' => $comment->created_at
+            ]);
+
+        $posts = Post::all()->select(['id', 'slug', 'title']);
+        return Inertia::render('LastCommentsForPage', [
+            'comments' => $comments,
+            'posts' => $posts
         ]);
     }
 }
