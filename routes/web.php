@@ -57,7 +57,7 @@ Route::controller(TagController::class)->group(function () {
     })->name('tag-create');
 
     Route::post('/tags', 'store');
-});
+})->middleware('auth');
 
 Route::controller(CommentController::class)->group(function () {
     Route::get('/comment-create', function() {
