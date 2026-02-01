@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -111,5 +112,31 @@ class PostController extends Controller
             ['posts' => Post::whereHas('tags', function($q) use ($slug) {
                 $q->where('slug', '=', $slug);
             })->with('categories', 'tags')->get()]);
+    }
+
+    public function getUserPosts(Request $request)
+    {
+        $validate = Validator::make($request->all(),
+        [ 'id' => 'required|numeric|exists:users,id' ],
+        [
+            'id.required' => 'Полето е задължително.',
+            'id.numeric' => 'Полето трябва да е с числова стойност.',
+            'id.exists' => 'Няма запис с това Id.'
+        ]);
+
+        if($validate->fails())
+        {
+            return redirect()
+                ->route('list.by.author')
+                ->withErrors($validate);
+        }
+
+        $user = User::find($request->integer('id'));
+        $posts = Post::whereBelongsTo($user)->get();
+
+        return Inertia::render('User/Lists/PostByAuthor',
+        [
+            'posts' => $posts
+        ]);
     }
 }

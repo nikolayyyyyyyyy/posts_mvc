@@ -1,17 +1,21 @@
-<script setup lang="ts">
+<script setup>
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 defineProps({
     users:{
         type: Array,
-        required: true
+        required: false
+    },
+    posts:{
+        type: Array,
+        required: false
     }
 });
 
 const user_id = useForm({
-    'id': ''
+    id: ''
 });
 </script>
 
@@ -22,8 +26,8 @@ const user_id = useForm({
         <section class="posts-by-users">
             <div class="section__inner">
                 <h1>Постове по автори</h1>
-
-                <form @submit.prevent="user_id.post(`/user/`)" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
+{{ posts }}
+                <form @submit.prevent="user_id.post('/user/posts')" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="slug">Имейл</label>
 

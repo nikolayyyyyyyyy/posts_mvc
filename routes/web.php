@@ -23,9 +23,10 @@ Route::controller(PostController::class)->group(function () {
         return Inertia::render('User/CreatePost', ['categories' => $categories, 'tags' => $tags]);
     })->name('post-create');
     Route::post('/posts', 'store');
-    Route::post('/category/{slug}/posts', 'getPostsByCategorySlug');
-    ROute::post('/tag/{slug}/posts', 'getPostsByTagSlug');
+    Route::post('/tag/{slug}/posts', 'getPostsByTagSlug');
+    Route::post('/user/posts', 'getUserPosts');
 
+    Route::post('/posts-category', 'getPostsByCategorySlug');
     Route::get('/posts-category', function() {
         return Inertia::render('User/Lists/PostByCategory');
     })->name('list.by.category.slug');

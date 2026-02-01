@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -17,13 +19,18 @@ class Post extends Model
         'count_likes'
     ];
 
-    public function categories()
+    public function categories() : BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
-    public function tags()
+    public function tags() : BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_author_id');
     }
 }
