@@ -23,7 +23,7 @@ const tag_slug = useForm({
             <div class="section__inner">
                 <h1>Постове по таг.</h1>
 
-                <form @submit.prevent="tag_slug.post(`/tag/${tag_slug.slug}/posts`)" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                <form @submit.prevent="tag_slug.post(`/posts-tag`)" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="slug">Слъг</label>
                         <TextInput v-model="tag_slug.slug"/>

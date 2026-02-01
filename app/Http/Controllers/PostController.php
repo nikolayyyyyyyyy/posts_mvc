@@ -66,20 +66,12 @@ class PostController extends Controller
 
     public function getPostsByCategorySlug(Request $request)
     {   
-        $validator = Validator::make($request->all(), [
-            'slug' => 'required|exists:categories,slug|max:20',
-        ], [
+        $request->validate(['slug' => 'required|exists:categories,slug|max:20'], 
+        [
             'slug.required' => 'Полето е задължително.',
             'slug.exists'   => 'Няма запис с това име.',
             'slug.max'      => 'Полето не може да е над 20 символа.',
         ]);
-        
-        if ($validator->fails()) {
-            return redirect()
-                ->route('list.by.category.slug')
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $slug = $request->string('slug');
 
@@ -91,20 +83,13 @@ class PostController extends Controller
 
     public function getPostsByTagSlug(Request $request)
     {
-        $validate = Validator::make($request->all(),[
+        $request->validate([
             'slug' => 'required|exists:tags,slug|max:30'
         ],[
             'slug.required' => 'Полето е задължително',
             'slug.exists' => 'Няма запис с това Id.',
             'slug.max' => 'Полето трябва да е до 30 символа.'
         ]);
-
-        if($validate->fails())
-        {
-            return redirect()
-                ->route('list.by.tag.slug')
-                ->withErrors($validate);
-        }
 
         $slug = $request->string('slug');
 
@@ -116,20 +101,12 @@ class PostController extends Controller
 
     public function getUserPosts(Request $request)
     {
-        $validate = Validator::make($request->all(),
-        [ 'id' => 'required|numeric|exists:users,id' ],
+        $request->validate([ 'id' => 'required|numeric|exists:users,id' ],
         [
             'id.required' => 'Полето е задължително.',
             'id.numeric' => 'Полето трябва да е с числова стойност.',
             'id.exists' => 'Няма запис с това Id.'
         ]);
-
-        if($validate->fails())
-        {
-            return redirect()
-                ->route('list.by.author')
-                ->withErrors($validate);
-        }
 
         $user = User::find($request->integer('id'));
         $posts = Post::whereBelongsTo($user)->get();

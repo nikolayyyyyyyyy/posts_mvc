@@ -14,12 +14,6 @@ defineProps({
 const category_slug = useForm({
     slug: ''
 });
-
-function handle_submit(){
-    if(category_slug.slug){
-        category_slug.post(`/category/${category_slug.slug}/posts`)
-    }
-}
 </script>
 
 <template>
@@ -30,7 +24,7 @@ function handle_submit(){
             <div class="section__inner shell">
                 <h1 class="section__title">Постове по категория</h1>
 
-                <form @submit.prevent="handle_submit" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                <form @submit.prevent="category_slug.post(`/posts-category`)" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="slug">Слъг</label>
                         <TextInput v-model="category_slug.slug"/>

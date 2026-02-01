@@ -26,8 +26,8 @@ const user_id = useForm({
         <section class="posts-by-users">
             <div class="section__inner">
                 <h1>Постове по автори</h1>
-{{ posts }}
-                <form @submit.prevent="user_id.post('/user/posts')" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
+
+                <form @submit.prevent="user_id.post('/posts-author')" class="section__search bg-white p-4 shadow sm:rounded-lg sm:p-8">
                     <div class="form__input">
                         <label for="slug">Имейл</label>
 
@@ -40,6 +40,8 @@ const user_id = useForm({
                     
                     <PrimaryButton class="submit_btn">Търси</PrimaryButton>
                 </form>
+
+                {{ posts }}
             </div>
         </section>
     </AuthenticatedLayout>
