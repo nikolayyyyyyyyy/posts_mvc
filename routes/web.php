@@ -40,6 +40,11 @@ Route::controller(PostController::class)->group(function () {
             'users' => User::orderBy('id', 'desc')->get()
         ]);
     });
+
+    Route::get('/most-readed-post', function() {
+        $posts = Post::orderBy('count_likes', 'desc')->get();
+        return Inertia::render('MostReadedPost', ['posts' => $posts]);
+    });
 })->middleware('auth');
 
 Route::controller(CategoryController::class)->group(function () {
